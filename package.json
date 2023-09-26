@@ -1,0 +1,19 @@
+{
+    "name": "Identification Manager",
+    "version": "0.0.1",
+    "files": [
+      "*.json",
+      "package.json"
+    ],
+    "exports": {
+      "./identification-overview.json": {
+        "default": "./identification-overview.json"
+      },
+      "./tenant-overview.json": {
+        "default": "./tenant-overview.json"
+      }
+    },
+    "engines": {
+      "node": ">=16.17.0"
+    }
+  }

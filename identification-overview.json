@@ -1,0 +1,408 @@
+{
+    "$id": "https://raw.githubusercontent.com/micro-lc/back-kit/main/packages/templates/blank.json#",
+    "$schema": "https://raw.githubusercontent.com/micro-lc/back-kit/main/packages/engine/schemas/template.schema.json#",
+    "meta": {
+      "label": {
+        "en": "Identification - Overview",
+        "it": "Identificazione - Overview"
+      },
+      "description": {
+        "en": "Monitors all identification processes created",
+        "it": "Monitora tutti i processi di identificazione creati"
+      }
+    },
+    "template": {
+      "definitions": {
+        "dataSchema": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "label": "ID",
+              "visualizationOptions": {
+                "hidden": true
+              },
+              "filtersOptions": {
+                "hidden": true
+              }
+            },
+            "__STATE__": {
+              "type": "string",
+              "label": "State",
+              "enum": [
+                "PUBLIC",
+                "DRAFT",
+                "TRASH",
+                "DELETED"
+              ],
+              "visualizationOptions": {
+                "hidden": true
+              },
+              "filtersOptions": {
+                "hidden": true
+              }
+            },
+            "createdAt": {
+              "type": "string",
+              "label": "Date",
+              "format": "date-time",
+              "dateOptions": {
+                "displayFormat": "YYYY-MM-DD"
+              }
+            },
+            "sagaId": {
+              "type": "string",
+              "label": "ID"
+            },
+            "status": {
+              "type": "string",
+              "label": "Status"
+            },
+            "identificationMethod": {
+              "type": "string",
+              "label": "Method"
+            },
+            "tenantId": {
+              "type": "string",
+              "label": "Tenant ID"
+            }
+          }
+        }
+      },
+      "content": {
+        "content": [
+          {
+            "content": [
+              {
+                "tag": "div",
+                "content": [
+                  {
+                    "properties": {
+                      "content": "Overview"
+                    },
+                    "tag": "bk-title"
+                  },
+                  {
+                    "tag": "bk-refresh-button",
+                    "attributes": {
+                      "style": "margin-left: 14px;"
+                    }
+                  },
+                  {
+                    "tag": "div",
+                    "attributes": {
+                      "style": "flex-grow: 1;"
+                    }
+                  },
+                  {
+                    "properties": {
+                      "placeholder": "Search..."
+                    },
+                    "tag": "bk-search-bar"
+                  },
+                  {
+                    "properties": {
+                      "iconId": "DownloadOutlined",
+                      "content": "Export",
+                      "clickConfig": {
+                        "type": "event",
+                        "actionConfig": {
+                          "label": "export-data",
+                          "payload": {}
+                        }
+                      }
+                    },
+                    "tag": "bk-button"
+                  },
+                  {
+                    "properties": {
+                      "content": "",
+                      "clickConfig": {
+                        "type": "event",
+                        "actionConfig": {
+                          "label": "filter",
+                          "payload": {}
+                        }
+                      },
+                      "type": "outlined",
+                      "iconId": "FunnelPlotOutlined"
+                    },
+                    "tag": "bk-button"
+                  }
+                ],
+                "attributes": {
+                  "style": "display: flex; flex-direction: row; gap: 10px; padding: 0 20px;"
+                }
+              },
+              {
+                "tag": "div",
+                "attributes": {
+                  "style": "width: 100%; display: flex; justify-content: space-between;"
+                },
+                "content": [
+                  {
+                    "attributes": {
+                      "style": "flex-grow: 1;"
+                    },
+                    "properties": {
+                      "tabs": [
+                        {
+                          "key": "all",
+                          "title": "All"
+                        },
+                        {
+                          "key": "created",
+                          "title": "Created",
+                          "filters": [
+                            {
+                              "property": "status",
+                              "operator": "equal",
+                              "value": "Created"
+                            }
+                          ]
+                        },
+                        {
+                          "key": "pending",
+                          "title": "Pending",
+                          "filters": [
+                            {
+                              "property": "status",
+                              "operator": "equal",
+                              "value": "Identification Pending"
+                            }
+                          ]
+                        },
+                        {
+                          "key": "id-completed",
+                          "title": "Identification Completed",
+                          "filters": [
+                            {
+                              "property": "status",
+                              "operator": "equal",
+                              "value": "Identification Completed"
+                            }
+                          ]
+                        },
+                        {
+                          "key": "completed",
+                          "title": "Completed",
+                          "filters": [
+                            {
+                              "property": "status",
+                              "operator": "equal",
+                              "value": "Completed"
+                            }
+                          ]
+                        },
+                        {
+                          "key": "failed",
+                          "title": "Failed",
+                          "filters": [
+                            {
+                              "property": "status",
+                              "operator": "equal",
+                              "value": "Failed"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "tag": "bk-tabs"
+                  },
+                  {
+                    "attributes": {
+                      "style": "margin-right: 4px"
+                    },
+                    "properties": {
+                      "dataSchema": {
+                        "$ref": "#/definitions/dataSchema"
+                      },
+                      "filters": []
+                    },
+                    "tag": "bk-filters-manager"
+                  }
+                ]
+              }
+            ],
+            "tag": "header",
+            "attributes": {
+              "style": "display: flex; flex-direction: column; padding-top: 10px; background-color: white;"
+            }
+          },
+          {
+            "content": [
+              {
+                "properties": {
+                  "dataSchema": {
+                    "$ref": "#/definitions/dataSchema"
+                  },
+                  "maxLines": 10,
+                  "rowActions": {
+                    "kind": "icons",
+                    "actions": []
+                  }
+                },
+                "tag": "bk-table"
+              },
+              {
+                "properties": {
+                  "requireConfirm": {
+                    "onClose": true,
+                    "onSave": true
+                  },
+                  "dataSchema": {
+                    "$ref": "#/definitions/dataSchema"
+                  },
+                  "width": "70vw"
+                },
+                "tag": "bk-form-modal"
+              },
+              {
+                "tag": "bk-confirmation-modal"
+              },
+              {
+                "properties": {
+                  "rootElementSelectors": "main.micro-lc-layout-content",
+                  "successEventMap": {
+                    "create-data": {
+                      "title": "Success",
+                      "content": "Data successfully created",
+                      "type": "success"
+                    },
+                    "update-data": {
+                      "title": "Success",
+                      "content": "Data successfully updated",
+                      "type": "success"
+                    },
+                    "delete-data": {
+                      "title": "Success",
+                      "content": "Data successfully deleted",
+                      "type": "success"
+                    }
+                  },
+                  "errorEventMap": {
+                    "create-data": {
+                      "title": "Error",
+                      "content": "An error occurred during order creation",
+                      "type": "error"
+                    },
+                    "update-data": {
+                      "title": "Error",
+                      "content": "An error occurred during order updated",
+                      "type": "error"
+                    },
+                    "delete-data": {
+                      "title": "Error",
+                      "content": "An error occurred during order deletion",
+                      "type": "error"
+                    }
+                  }
+                },
+                "tag": "bk-notifications",
+                "attributes": {}
+              }
+            ],
+            "tag": "main",
+            "attributes": {
+              "style": "flex-grow: 1; background-color: #f0f2f5; padding: 20px; overflow-y: auto;"
+            }
+          },
+          {
+            "content": [
+              {
+                "properties": {
+                  "dataSchema": {
+                    "$ref": "#/definitions/dataSchema"
+                  },
+                  "width": "40vw"
+                },
+                "tag": "bk-filter-drawer"
+              }
+            ],
+            "tag": "aside"
+          },
+          {
+            "content": [
+              {
+                "tag": "bk-footer",
+                "attributes": {
+                  "style": "display: flex; justify-content: end; align-items: center;"
+                }
+              },
+              {
+                "tag": "bk-pagination",
+                "properties": {
+                  "pageSize": 10
+                }
+              }
+            ],
+            "tag": "footer",
+            "attributes": {
+              "style": "display: flex; flex-direction: row; flex-wrap: wrap; padding: 10px 20px; background-color: white; gap: 10px; position: sticky; bottom: 0; z-index: 10"
+            }
+          },
+          {
+            "properties": {
+              "basePath": "/identification-main-process-view",
+              "dataSchema": {
+                "$ref": "#/definitions/dataSchema"
+              }
+            },
+            "tag": "bk-crud-client"
+          },
+          {
+            "properties": {
+              "basePath": "/v2/file"
+            },
+            "tag": "bk-file-client"
+          },
+          {
+            "tag": "bk-file-manager"
+          },
+          {
+            "tag": "bk-export-modal"
+          },
+          {
+            "tag": "bk-export-client",
+            "properties": {
+              "basePath": "/export",
+              "exportInternalUrl": "http://crud-service/main-process-view/export",
+              "dataSchema": {
+                "type": "object",
+                "properties": {
+                  "createdAt": {
+                    "type": "string",
+                    "label": "Date",
+                    "format": "date-time"
+                  },
+                  "sagaId": {
+                    "type": "string",
+                    "label": "ID"
+                  },
+                  "status": {
+                    "type": "string",
+                    "label": "Status"
+                  },
+                  "identificationMethod": {
+                    "type": "string",
+                    "label": "Method"
+                  },
+                  "tenantId": {
+                    "type": "string",
+                    "label": "Tenant ID"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "tag": "div",
+        "attributes": {
+          "style": "width: 100%; height: 100%; display: flex; flex-direction: column; position: relative;"
+        }
+      },
+      "sources": [
+        "https://cdn.jsdelivr.net/npm/@micro-lc/bk-web-components@latest/dist/bk-web-components.esm.js"
+      ]
+    }
+  }
